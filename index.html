@@ -1,0 +1,58 @@
+async function calculateComparison() {
+    // 1. Ask the server if we are allowed to calculate
+    const response = await fetch('/api/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quotes: [] }) // Send your quote data here
+    });
+
+    if (response.status === 402) {
+        // 2. If status is 402, the user is blocked because they hit their limit!
+        const data = await response.json();
+        alert(data.message); // Displays: "You've used your 1 free daily quote..."
+        window.location.href = data.upgradeUrl; // Sends them to /subscribe.html
+    } else {
+        // 3. If access is granted, run your original calculation logic here
+        console.log("Access granted!");
+        
+        const quotes = [];
+        document.querySelectorAll('.input-group').forEach((el, i) => {
+            const base = parseFloat(el.querySelector('.base-rate').value) || 0;
+            const fuel = parseFloat(el.querySelector('.fuel-surcharge').value) || 0;
+            const acc = parseFloat(el.querySelector('.accessorial-fees').value) || 0;
+            const weight = parseFloat(el.querySelector('.weight').value) || 1;
+            const total = base + fuel + acc;
+            quotes.push({
+                name: el.querySelector('.carrier-name').value || 'Carrier ' + (i+1),
+                total: total,
+                perLb: (total / weight).toFixed(4)
+            });
+        });
+
+        // Update the UI with the results
+        const resultsList = document.getElementById('resultsList');
+        resultsList.innerHTML = quotes.map(q => `
+            <div class="p-4 bg-gray-50 rounded-lg border">
+                <div class="font-bold">${q.name}</div>
+                <div class="text-sm text-gray-600">Total: $${q.total.toFixed(2)} | Per lb: $${q.perLb}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('resultsSection').classList.remove('hidden');
+        
+        // Refresh the chart
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        if (chart) chart.destroy();
+        chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: quotes.map(q => q.name),
+                datasets: [{
+                    label: 'Cost per lb ($)',
+                    data: quotes.map(q => q.perLb),
+                    backgroundColor: '#764ba2'
+                }]
+            }
+        });
+    }
+}
