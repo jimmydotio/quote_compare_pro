@@ -12,3 +12,10 @@ node_modules/
 
 # OS noise
 .DS_Store
+# Security: Never push these
+.env
+.env.local
+.env.sample
+*.db
+node_modules/
+.DS_Store
