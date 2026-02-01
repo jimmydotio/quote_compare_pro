@@ -1,8 +1,14 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Environment / Secrets
 .env
+.env.*
+!.env.example
+
+# Databases
 *.db
-.env
-.env.save*
-quotes.db
-.env
-.env.save*
+*.sqlite
+
+# OS noise
+.DS_Store
