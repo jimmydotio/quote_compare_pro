@@ -1,5 +1,13 @@
-const express = require('express');
-require('dotenv').config();
+require('dotenv').config();const express = require('express');
+require('dotenv').config();require('dotenv').config();
+
+// Verification Test
+if (process.env.STRIPE_SECRET_KEY) {
+    console.log("✅ Success: .env file found and STRIPE_SECRET_KEY is loaded.");
+    console.log("Key starts with:", process.env.STRIPE_SECRET_KEY.substring(0, 7)); 
+} else {
+    console.log("❌ Error: STRIPE_SECRET_KEY not found. Check your .env file name and content.");
+}
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const path = require('path');
 const db = require('better-sqlite3')('quotes.db');
