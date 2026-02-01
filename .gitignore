@@ -1,3 +1,8 @@
 node_modules
 .env
 *.db
+.env
+.env.save*
+quotes.db
+.env
+.env.save*
