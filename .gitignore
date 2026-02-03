@@ -1,21 +1,8 @@
-# Dependencies
 node_modules/
-
-# Environment / Secrets
-.env
-.env.*
-!.env.example
-
-# Databases
-*.db
-*.sqlite
-
-# OS noise
-.DS_Store
-# Security: Never push these
 .env
 .env.local
-.env.sample
 *.db
-node_modules/
+*.log
 .DS_Store
+dist/
+build/
