@@ -61,8 +61,8 @@
 
     <script>
         const apiKey = ""; // Managed by environment
-        // REPLACE THE NUMBER BELOW WITH YOUR ACTUAL IP
-        const SERVER_URL = 174.240.20.81;
+        // Use the current domain for API calls
+        const SERVER_URL = window.location.origin;
 
         async function fetchGemini(prompt, systemPrompt = "") {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -90,7 +90,7 @@
         }
 
         function calculateComparison() {
-            window.location.href = `${SERVER_URL}/create-checkout-session`;
+            window.location.href = '/create-checkout-session';
         }
     </script>
 </body>
